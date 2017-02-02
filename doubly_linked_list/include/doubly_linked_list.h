@@ -22,5 +22,17 @@ dll_create_node(void);
 void
 dll_destroy_node(dll_node elem);
 
+dll_node
+dll_insert_after(dll_node elem, dll_node new);
+
+dll_node
+dll_insert_at_end(dll_node elem, dll_node new);
+
+dll_node
+dll_insert_before(dll_node elem, dll_node new);
+
+void
+dll_remove(dll_node elem)
+
 #endif /* DOUBLY_LINKED_LIST_H */
 

@@ -18,6 +18,15 @@
 dll_node
 dll_create_node(void)
 {
-    return (dll_node) calloc(1, sizeof(struct dll_node));
+    dll_node new = calloc(1, sizeof(struct dll_node));
+
+    if (NULL != new)
+    {
+        new->next = NULL_NODE;
+        new->prev = NULL_NODE;
+        new->data = NULL;
+    }
+
+    return new;
 }
 
