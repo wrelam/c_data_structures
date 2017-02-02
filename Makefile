@@ -12,8 +12,9 @@ CFLAGS	:= 	-std=iso9899:1999
 CFLAGS	+=	-Wall -Wextra -Werror -pedantic
 CFLAGS	+=	-I$(INCDIR)
 DBGFLAGS:=	-ggdb3 -DDEBUG
-LIBNAME	:=	doubly_linked_list.a
+LIBNAME	:=	data_structures.a
 OBJECTS	:=	$(patsubst $(SRCDIR)/%.c,%.o,$(wildcard $(SRCDIR)/*.c))
+SLIBS	:=	$(patsubst $(SRCDIR)/%.c,%.a,$(wildcard $(SRCDIR)/*.c))
 VPATH	:=	$(SRCDIR)
 
 .SUFFIXES:
@@ -25,7 +26,10 @@ all: $(LIBNAME)
 debug: CFLAGS += $(DBGFLAGS)
 debug: clean all
 
-$(LIBNAME): $(OBJECTS)
+$(LIBNAME): $(SLIBS)
+	$(AR) cr $@ $^
+
+%.a: %.o
 	$(AR) cr $@ $^
 
 %.o: %.c
@@ -33,4 +37,4 @@ $(LIBNAME): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJECTS) $(LIBNAME)
+	rm -rf $(OBJECTS) $(SLIBS) $(LIBNAME)

@@ -1,14 +1,16 @@
 /***************************************************************************//**
     @file   doubly_linked_list.h
 
-    @brief  Interface to the doubly linked list library
+    @brief  Interface to a doubly linked list implementation
 *******************************************************************************/
-#ifndef DOUBLY_LINKED_LIST_H
-#define DOUBLY_LINKED_LIST_H
+#ifndef LIST_DOUBLY_H
+#define LIST_DOUBLY_H
 
 #include <string.h>
 
+#ifndef NULL_NODE
 #define NULL_NODE   NULL
+#endif /* NULL_NODE */
 
 typedef struct dll_node {
     struct dll_node *next;
@@ -32,7 +34,7 @@ dll_node
 dll_insert_before(dll_node elem, dll_node new);
 
 void
-dll_remove(dll_node elem)
+dll_remove(dll_node elem);
 
-#endif /* DOUBLY_LINKED_LIST_H */
+#endif /* LIST_DOUBLY_H */
 
