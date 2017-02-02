@@ -6,6 +6,10 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
+#include <string.h>
+
+#define NULL_NODE   NULL
+
 typedef struct ll_node {
     struct ll_node *next;
     void *data;
@@ -25,6 +29,9 @@ ll_insert_before(ll_node elem, ll_node new);
 
 ll_node
 ll_insert_at_end(ll_node elem, ll_node new);
+
+ll_node
+ll_remove_after(ll_node elem);
 
 #endif /* LINKED_LIST_H */
 

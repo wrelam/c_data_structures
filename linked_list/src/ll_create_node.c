@@ -13,7 +13,7 @@
     @brief  Allocates and returns an initialized node
 
     @return A new linked list node
-    @retval NULL    Failed to allocate new node
+    @retval NULL_NODE   Failed to allocate new node
 *******************************************************************************/
 ll_node
 ll_create_node(void)
