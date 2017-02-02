@@ -1,24 +1,23 @@
 /***************************************************************************//**
-    @file   ll_insert_after.c
+    @file   ll_insert_before.c
 
-    @brief  Inserts a node after another node
+    @brief  Inserts a node before another node
 *******************************************************************************/
 #include "linked_list.h"
 
 /*******************************************************************************
-    ll_insert_after
+    ll_insert_before
 *//**
-    @brief  Inserts one node after another
-    @param  elem    List node having a node inserted after it
+    @brief  Inserts one node before another
+    @param  elem    List node having a node inserted before it
     @param  new     List node being inserted
 
     @return The frontmost node of the pair
 *******************************************************************************/
 ll_node
-ll_insert_after(ll_node elem, ll_node new)
+ll_insert_before(ll_node elem, ll_node new)
 {
-    new->next = elem->next;
-    elem->next = new;
-    return elem;
+    new->next = elem;
+    return new;
 }
 

@@ -11,11 +11,11 @@
     ll_destroy_node
 *//**
     @brief  Destroys a given node
-    @param  node    The node to destroy
+    @param  elem    List node being destroyed
 *******************************************************************************/
 void
-ll_destroy_node(ll_node node)
+ll_destroy_node(ll_node elem)
 {
-    free(node);
+    free(elem);
 }
 

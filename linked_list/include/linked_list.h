@@ -15,10 +15,16 @@ ll_node
 ll_create_node(void);
 
 void
-ll_destroy_node(ll_node node);
+ll_destroy_node(ll_node elem);
 
 ll_node
-ll_insert_after(ll_node base, ll_node new);
+ll_insert_after(ll_node elem, ll_node new);
+
+ll_node
+ll_insert_before(ll_node elem, ll_node new);
+
+ll_node
+ll_insert_at_end(ll_node elem, ll_node new);
 
 #endif /* LINKED_LIST_H */
 
