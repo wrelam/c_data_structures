@@ -33,5 +33,8 @@ ll_insert_at_end(ll_node elem, ll_node new);
 ll_node
 ll_remove_after(ll_node elem);
 
+ll_node
+ll_reverse_list(ll_node head);
+
 #endif /* LINKED_LIST_H */
 
