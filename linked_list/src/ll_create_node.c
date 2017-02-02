@@ -18,6 +18,14 @@
 ll_node
 ll_create_node(void)
 {
-    return (ll_node) calloc(1, sizeof(struct ll_node));
+    ll_node new = calloc(1, sizeof(struct ll_node));
+
+    if (NULL != new)
+    {
+        new->next = NULL_NODE;
+        new->data = NULL;
+    }
+
+    return new;
 }
 

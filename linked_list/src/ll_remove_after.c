@@ -16,16 +16,17 @@
 ll_node
 ll_remove_after(ll_node elem)
 {
-    /* No nodes exist after the given node */
-    if (NULL == elem->next)
-    {
-        return elem;
-    }
+    ll_node del = NULL_NODE;
 
-    ll_node del = elem->next;
-    elem->next = elem->next->next;
-    del->next = NULL;
-    ll_destroy_node(del);
+    /* No nodes exist after the given node */
+    if (NULL_NODE != elem->next)
+    {
+        del = elem->next;
+        elem->next = elem->next->next;
+        del->next = NULL_NODE;
+        ll_destroy_node(del);
+        del = NULL_NODE;
+    }
 
     return elem;
 }

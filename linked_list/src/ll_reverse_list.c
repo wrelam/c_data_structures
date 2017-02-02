@@ -19,7 +19,7 @@ ll_reverse_list(ll_node head)
     ll_node tmp = NULL_NODE;
     ll_node prev = NULL_NODE;
 
-    while (NULL != head)
+    while (NULL_NODE != head)
     {
         tmp = head->next;
         head->next = prev;
