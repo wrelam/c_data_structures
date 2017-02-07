@@ -8,122 +8,167 @@
 #include "list_singly.h"
 
 /*******************************************************************************
-    ll_create_node
+    sll_destroy_list
 *//**
-    @brief  Allocates and returns an initialized node
-
-    @return A new linked list node
-    @retval NULL_NODE   Failed to allocate new node
+    @brief  Destroys an entire list
+    @param  *list   List to destroy
 *******************************************************************************/
-sll_node
-ll_create_node(void)
+void
+sll_destroy_list(sll_list *list)
 {
-    sll_node new = calloc(1, sizeof(struct sll_node));
-
-    if (NULL != new)
+    while (!sll_is_empty(list))
     {
-        new->next = NULL_NODE;
-        new->data = NULL;
+        list = sll_remove_front(list);
     }
-
-    return new;
 }
 
 
 /*******************************************************************************
-    ll_destroy_node
+    sll_destroy_node
 *//**
     @brief  Destroys a given node
-    @param  elem    List node being destroyed
+    @param  *elem   List node being destroyed
 *******************************************************************************/
 void
-ll_destroy_node(sll_node elem)
+sll_destroy_node(sll_node *elem)
 {
+    if (NULL != elem)
+    {
+        elem->next = NULL;
+    }
+
     free(elem);
 }
 
 
 /*******************************************************************************
-    ll_insert_after
+    sll_insert_after
 *//**
     @brief  Inserts one node after another
-    @param  elem    List node having a node inserted after it
-    @param  new     List node being inserted
+    @param  *elem   List node having a node inserted after it
+    @param  *new    List node being inserted
 
-    @return The frontmost node of the pair
+    @return Frontmost node of the pair
+    @retval NULL    Given node was NULL
 *******************************************************************************/
-sll_node
-ll_insert_after(sll_node elem, sll_node new)
+sll_node *
+sll_insert_after(sll_node *elem, sll_node *new)
 {
-    new->next = elem->next;
-    elem->next = new;
-    return elem;
-}
-
-
-/*******************************************************************************
-    ll_insert_at_end
-*//**
-    @brief  Inserts a node at the end of the list containing the given node
-    @param  elem    Existing list node defining the list to append to
-    @oaram  new     List node being inserted
-
-    @return The node defined by elem
-*******************************************************************************/
-sll_node
-ll_insert_at_end(sll_node elem, sll_node new)
-{
-    sll_node iter = elem;
-
-    while (NULL_NODE != iter->next)
+    if ((NULL != elem) &&
+        (NULL != new))
     {
-        iter = iter->next;
+        new->next = elem->next;
+        elem->next = new;
     }
 
-    iter->next = new;
-
     return elem;
 }
 
 
 /*******************************************************************************
-    ll_insert_before
+    sll_insert_back
 *//**
-    @brief  Inserts one node before another
-    @param  elem    List node having a node inserted before it
-    @param  new     List node being inserted
+    @brief  Inserts a node at the end of a list
+    @param  *list   List to modify
+    @oaram  *new    List node being inserted
 
-    @return The frontmost node of the pair
+    @return Modified list
+    @retval NULL    List does not exist
 *******************************************************************************/
-sll_node
-ll_insert_before(sll_node elem, sll_node new)
+sll_list *
+sll_insert_back(sll_list *list, sll_node *new)
 {
-    new->next = elem;
-    return new;
+    sll_node *iter = NULL;
+
+    if (NULL != list)
+    {
+        /* Adding the initial node to the list */
+        if (NULL == list->head)
+        {
+            list->head = new;
+        }
+        /* Find the last node and append */
+        else
+        {
+            iter = list->head;
+
+            while (NULL != iter->next)
+            {
+                iter = iter->next;
+            }
+
+            iter = sll_insert_after(iter, new);
+        }
+    }
+
+    return list;
 }
 
 
 /*******************************************************************************
-    ll_remove_after
+    sll_insert_front
+*//**
+    @brief  Inserts a node at the beginning of a list
+    @param  *list   List to modify
+    @param  *new    List node being inserted
+
+    @return Modified list
+    @retval NULL    List does not exist
+*******************************************************************************/
+sll_list *
+sll_insert_front(sll_list *list, sll_node *new)
+{
+    if (NULL != list)
+    {
+        if (NULL != list->head)
+        {
+            new = sll_insert_after(new, list->head);
+        }
+
+        list->head = new;
+    }
+
+    return list;
+}
+
+
+/*******************************************************************************
+    sll_is_empty
+*//**
+    @brief  Determines if a list is empty or not
+    @param  *list   List to check
+
+    @return Boolean indicating emptiness
+    @retval 0   List is not empty
+    @retval !0  List is empty
+*******************************************************************************/
+int
+sll_is_empty(sll_list *list)
+{
+    return !((NULL != list) && (NULL != list->head));
+}
+
+
+/*******************************************************************************
+    sll_remove_after
 *//**
     @brief  Removes the node following the given node
-    @param  elem    List node having the node after it removed
+    @param  *elem   List node having the node after it removed
 
-    @return The provided node
+    @return Provided node
 *******************************************************************************/
-sll_node
-ll_remove_after(sll_node elem)
+sll_node *
+sll_remove_after(sll_node *elem)
 {
-    sll_node del = NULL_NODE;
+    sll_node *del = NULL;
 
-    /* No nodes exist after the given node */
-    if (NULL_NODE != elem->next)
+    /* Nodes exist after the given node */
+    if ((NULL != elem) &&
+        (NULL != elem->next))
     {
         del = elem->next;
         elem->next = elem->next->next;
-        del->next = NULL_NODE;
-        ll_destroy_node(del);
-        del = NULL_NODE;
+        sll_destroy_node(del);
     }
 
     return elem;
@@ -131,27 +176,89 @@ ll_remove_after(sll_node elem)
 
 
 /*******************************************************************************
-    ll_reverse_list
+    sll_remove_back
 *//**
-    @brief  Reverses a linked list
-    @param  head    The head node of the list
+    @brief  Removes the element at the back of the list
+    @param  *list   List to remove from
 
-    @return The new head of the list
+    @return Modified list
 *******************************************************************************/
-sll_node
-ll_reverse_list(sll_node head)
+sll_list *
+sll_remove_back(sll_list *list)
 {
-    sll_node tmp = NULL_NODE;
-    sll_node prev = NULL_NODE;
+    sll_node *del = NULL;
+    sll_node **iter = NULL;
 
-    while (NULL_NODE != head)
+    if (!sll_is_empty(list))
     {
-        tmp = head->next;
-        head->next = prev;
-        prev = head;
-        head = tmp;
+        iter = &(list->head);
+        del = list->head;
+
+        while (NULL != del->next)
+        {
+            iter = &(del->next);
+            del = del->next;
+        }
+
+        /* del - node to delete */
+        sll_destroy_node(del);
+        *iter = NULL;
     }
 
-    return prev;
+    return list;
+}
+
+/*******************************************************************************
+    sll_remove_front
+*//**
+    @brief  Removes the element at the front of the list
+    @param  *list   List to remove from
+
+    @return Modified list
+*******************************************************************************/
+sll_list *
+sll_remove_front(sll_list *list)
+{
+    sll_node *newHead = NULL;
+
+    if (!sll_is_empty(list))
+    {
+        newHead = list->head->next;
+        sll_destroy_node(list->head);
+        list->head = newHead;
+    }
+
+    return list;
+}
+
+
+/*******************************************************************************
+    sll_reverse
+*//**
+    @brief  Reverses a linked list
+    @param  *list   List to reverse
+
+    @return Reversed list
+*******************************************************************************/
+sll_list *
+sll_reverse(sll_list *list)
+{
+    sll_node *tmp = NULL;
+    sll_node *prev = NULL;
+
+    if (!sll_is_empty(list))
+    {
+        while (NULL != list->head)
+        {
+            tmp = list->head->next;
+            list->head->next = prev;
+            prev = list->head;
+            list->head = tmp;
+        }
+
+        list->head = prev;
+    }
+
+    return list;
 }
 

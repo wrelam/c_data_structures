@@ -8,35 +8,43 @@
 
 #include <string.h>
 
-#ifndef NULL_NODE
-#define NULL_NODE   NULL
-#endif /* NULL_NODE */
-
 typedef struct sll_node {
     struct sll_node *next;
-    void *data;
-} * sll_node;
+} sll_node;
 
-sll_node
-sll_create_node(void);
+typedef struct sll_list {
+    struct sll_node *head;
+} sll_list;
 
 void
-sll_destroy_node(sll_node elem);
+sll_destroy_list(sll_list *list);
 
-sll_node
-sll_insert_after(sll_node elem, sll_node new);
+void
+sll_destroy_node(sll_node *elem);
 
-sll_node
-sll_insert_at_end(sll_node elem, sll_node new);
+sll_node *
+sll_insert_after(sll_node *elem, sll_node *new);
 
-sll_node
-sll_insert_before(sll_node elem, sll_node new);
+sll_list *
+sll_insert_back(sll_list *list, sll_node *new);
 
-sll_node
-sll_remove_after(sll_node elem);
+sll_list *
+sll_insert_front(sll_list *list, sll_node *new);
 
-sll_node
-sll_reverse_list(sll_node head);
+int
+sll_is_empty(sll_list *list);
+
+sll_node *
+sll_remove_after(sll_node *elem);
+
+sll_list *
+sll_remove_back(sll_list *list);
+
+sll_list *
+sll_remove_front(sll_list *list);
+
+sll_list *
+sll_reverse(sll_list *list);
 
 #endif /* LIST_SINGLY_H */
 
