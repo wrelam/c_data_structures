@@ -8,40 +8,6 @@
 #include "list_singly.h"
 
 /*******************************************************************************
-    sll_destroy_list
-*//**
-    @brief  Destroys an entire list
-    @param  *list   List to destroy
-*******************************************************************************/
-void
-sll_destroy_list(sll_list *list)
-{
-    while (!sll_is_empty(list))
-    {
-        list = sll_remove_front(list);
-    }
-}
-
-
-/*******************************************************************************
-    sll_destroy_node
-*//**
-    @brief  Destroys a given node
-    @param  *elem   List node being destroyed
-*******************************************************************************/
-void
-sll_destroy_node(sll_node *elem)
-{
-    if (NULL != elem)
-    {
-        elem->next = NULL;
-    }
-
-    free(elem);
-}
-
-
-/*******************************************************************************
     sll_insert_after
 *//**
     @brief  Inserts one node after another
@@ -168,7 +134,7 @@ sll_remove_after(sll_node *elem)
     {
         del = elem->next;
         elem->next = elem->next->next;
-        sll_destroy_node(del);
+        del->next = NULL;
     }
 
     return elem;
@@ -200,8 +166,6 @@ sll_remove_back(sll_list *list)
             del = del->next;
         }
 
-        /* del - node to delete */
-        sll_destroy_node(del);
         *iter = NULL;
     }
 
@@ -224,7 +188,7 @@ sll_remove_front(sll_list *list)
     if (!sll_is_empty(list))
     {
         newHead = list->head->next;
-        sll_destroy_node(list->head);
+        list->head->next = NULL;
         list->head = newHead;
     }
 

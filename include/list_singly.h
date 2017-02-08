@@ -16,12 +16,6 @@ typedef struct sll_list {
     struct sll_node *head;
 } sll_list;
 
-void
-sll_destroy_list(sll_list *list);
-
-void
-sll_destroy_node(sll_node *elem);
-
 sll_node *
 sll_insert_after(sll_node *elem, sll_node *new);
 
