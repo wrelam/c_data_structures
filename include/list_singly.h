@@ -28,7 +28,7 @@ typedef struct sll_list {
     @param  _member     sll_node member name within _type
     @param  _tmpPtr     Temporary pointer to prevent issues when deleting nodes
 
-    The ", 1" ensures that the only condition that applies in the NULL check on
+    The ", 1" ensures that the only condition that applies is the NULL check on
     curPtr and that a NULL next entry does not prematurely stop the loop.
 *******************************************************************************/
 #define sll_for_each(_listPtr, _curPtr, _type, _member, _tmpPtr)               \

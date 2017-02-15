@@ -6,7 +6,7 @@
 #ifndef LIST_DOUBLY_H
 #define LIST_DOUBLY_H
 
-#include <string.h>
+#include <stdlib.h>
 
 typedef struct dll_node {
     struct dll_node *next;
@@ -28,7 +28,7 @@ typedef struct dll_list {
     @param  _member     dll_node member name within _type
     @param  _tmpPtr     Temporary pointer to prevent issues when deleting nodes
 
-    The ", 1" ensures that the only condition that applies in the NULL check on
+    The ", 1" ensures that the only condition that applies is the NULL check on
     curPtr and that a NULL next entry does not prematurely stop the loop.
 *******************************************************************************/
 #define dll_for_each(_listPtr, _curPtr, _type, _member, _tmpPtr)               \
@@ -45,7 +45,7 @@ typedef struct dll_list {
     @param  _member     dll_node member name within _type
     @param  _tmpPtr     Temporary pointer to prevent issues when deleting nodes
 
-    The ", 1" ensures that the only condition that applies in the NULL check on
+    The ", 1" ensures that the only condition that applies is the NULL check on
     curPtr and that a NULL next entry does not prematurely stop the loop.
 *******************************************************************************/
 #define dll_for_eachrev(_listPtr, _curPtr, _type, _member, _tmpPtr)            \
