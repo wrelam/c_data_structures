@@ -11,7 +11,7 @@
     sll_insert_after
 *//**
     @brief  Inserts one node after another
-    @param  *elem   List node having a node inserted after it
+    @param  *elem   List node after which the new node is inserted
     @param  *new    List node being inserted
 
     @return Frontmost node of the pair
@@ -36,7 +36,9 @@ sll_insert_after(sll_node *elem, sll_node *new)
 *//**
     @brief  Inserts a node at the end of a list
     @param  *list   List to modify
-    @oaram  *new    List node being inserted
+    @param  *new    List node being inserted
+
+    @see    sll_insert_after()
 
     @return Modified list
     @retval NULL    List does not exist
@@ -148,6 +150,7 @@ sll_remove_after(sll_node *elem)
     @param  *list   List to remove from
 
     @return Modified list
+    @retval NULL    List does not exist
 *******************************************************************************/
 sll_list *
 sll_remove_back(sll_list *list)
@@ -199,10 +202,11 @@ sll_remove_front(sll_list *list)
 /*******************************************************************************
     sll_reverse
 *//**
-    @brief  Reverses a linked list
+    @brief  Reverses a list
     @param  *list   List to reverse
 
     @return Reversed list
+    @retval NULL    List does not exist
 *******************************************************************************/
 sll_list *
 sll_reverse(sll_list *list)
