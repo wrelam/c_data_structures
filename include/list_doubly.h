@@ -11,7 +11,6 @@
 typedef struct dll_node {
     struct dll_node *next;
     struct dll_node *prev;
-    void *data;
 } dll_node;
 
 typedef struct dll_list {
@@ -34,6 +33,7 @@ typedef struct dll_list {
 #define dll_for_each(_listPtr, _curPtr, _type, _member, _tmpPtr)               \
     for ((_curPtr) = (_type) (_listPtr)->head;                                 \
          NULL != (_curPtr) && ((_tmpPtr) = (_type) (_curPtr)->_member.next, 1);\
+         (_curPtr) = (_tmpPtr))
 
 /*******************************************************************************
     dll_for_each_rev
