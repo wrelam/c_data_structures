@@ -11,7 +11,7 @@
 
 #include "list_doubly.h"
 
-#define HASH_KEY_LEN    (FILENAME_MAX - 1)
+#define HASH_KEY_LEN    (FILENAME_MAX + 1)
 #define HASH_VAL_LEN    (FILENAME_MAX + 1)
 
 typedef char HashKey[HASH_KEY_LEN];
