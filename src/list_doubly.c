@@ -49,7 +49,7 @@ dll_insert_after(dll_node *elem, dll_node *new)
     @retval NULL    List does not exist
 *******************************************************************************/
 dll_list *
-dll_insert_back(dll_list *list, dll_node * new)
+dll_insert_back(dll_list *list, dll_node *new)
 {
     dll_node *iter = NULL;
 
