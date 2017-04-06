@@ -6,14 +6,16 @@
 #ifndef LIST_DOUBLY_H
 #define LIST_DOUBLY_H
 
-#include <stdlib.h>
+#include <stddef.h>
 
-typedef struct dll_node {
+typedef struct dll_node
+{
     struct dll_node *next;
     struct dll_node *prev;
 } dll_node;
 
-typedef struct dll_list {
+typedef struct dll_list
+{
     struct dll_node *head;
 } dll_list;
 

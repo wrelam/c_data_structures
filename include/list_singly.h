@@ -8,13 +8,15 @@
 #ifndef LIST_SINGLY_H
 #define LIST_SINGLY_H
 
-#include <string.h>
+#include <stddef.h>
 
-typedef struct sll_node {
+typedef struct sll_node
+{
     struct sll_node *next;
 } sll_node;
 
-typedef struct sll_list {
+typedef struct sll_list
+{
     struct sll_node *head;
 } sll_list;
 

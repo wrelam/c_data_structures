@@ -3,7 +3,7 @@
 
     @brief  Implementation of a doubly linked list
 *******************************************************************************/
-#include <stdlib.h>
+#include <stddef.h>
 
 #include "list_doubly.h"
 
@@ -124,7 +124,7 @@ dll_insert_front(dll_list *list, dll_node *new)
     {
         if (NULL != list->head)
         {
-            new = dll_insert_after(new, list->head);
+            new = dll_insert_before(list->head, new);
         }
 
         list->head = new;
