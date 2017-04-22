@@ -5,6 +5,7 @@
 *******************************************************************************/
 #include <math.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -269,6 +270,8 @@ ht_hash(HashTable *table, HashKey key)
     @param  **table Table to have a new record added
     @param  *rec    New record being added
 
+    On success, the passed rec pointer is no longer usable by the caller.
+
     @return Modified table
     @retval NULL    Table did not exist
 *******************************************************************************/
@@ -287,6 +290,8 @@ ht_add(HashTable **table, HashRecord *rec)
 
     if (NULL != ht_search(*table, rec->key))
     {
+        free(rec);
+        rec = NULL;
         return *table;
     }
 
@@ -317,7 +322,7 @@ ht_add(HashTable **table, HashRecord *rec)
     @param  key     Key to be found
 
     @return Pointer to a record with the given key
-    @retval kj
+    @retval NULL    No record found with the given key
 *******************************************************************************/
 HashRecord *
 ht_search(HashTable *table, HashKey key)
@@ -367,5 +372,55 @@ ht_remove(HashTable *table, HashRecord *rec)
     }
 
     return table;
+}
+
+
+/*******************************************************************************
+    ht_print
+*//**
+    @brief  Display key-value pairs in the hash table
+    @param  *table  Hash table to be printed
+    @param  *fmt    Format string for pair, only two '%s' specifiers are allowed
+*******************************************************************************/
+void
+ht_print(HashTable *table, char *fmt)
+{
+    size_t i = 0;
+    HashRecord *rec = NULL;
+    HashRecord *save = NULL;
+
+    if ((NULL != table) &&
+        (NULL != fmt))
+    {
+        for (i = 0; i < table->chainCount; i++)
+        {
+            dll_for_each(&(table->chains[i]), rec, HashRecord *, link, save)
+            {
+                printf(fmt, rec->key, rec->value);
+            }
+        }
+    }
+}
+
+
+/*******************************************************************************
+    ht_get_rec_count
+*//**
+    @brief  Returns the record count of a hash table
+    @param  *table  Hash table from which the record count is retrieved
+
+    @return Number of records in the hash table
+*******************************************************************************/
+size_t
+ht_get_rec_count(HashTable *table)
+{
+    size_t count = 0;
+
+    if (NULL != table)
+    {
+        count = table->recCount;
+    }
+
+    return count;
 }
 

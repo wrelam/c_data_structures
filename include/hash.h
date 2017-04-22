@@ -49,5 +49,11 @@ ht_remove(HashTable *table, HashRecord *rec);
 int
 ht_hash(HashTable *table, HashKey key);
 
+void
+ht_print(HashTable *table, char *fmt);
+
+size_t
+ht_get_rec_count(HashTable *table);
+
 #endif /* HASH_H */
 
