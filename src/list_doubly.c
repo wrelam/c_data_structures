@@ -165,15 +165,15 @@ dll_remove(dll_node *elem)
         if (NULL != elem->next)
         {
             elem->next->prev = elem->prev;
-            elem->next = NULL;
         }
 
         if (NULL != elem->prev)
         {
             elem->prev->next = elem->next;
-            elem->prev = NULL;
         }
 
+        elem->prev = NULL;
+        elem->next = NULL;
     }
 }
 
