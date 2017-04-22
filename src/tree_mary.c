@@ -76,6 +76,12 @@ mt_rem_child(MTreeNode *node)
 {
     if (NULL != node)
     {
+        if (node->parent &&
+            (node == (MTreeNode *) node->parent->children.head))
+        {
+            node->parent->children.head = node->link.next;
+        }
+
         dll_remove(&(node->link));
     }
 }
