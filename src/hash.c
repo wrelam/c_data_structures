@@ -34,8 +34,9 @@ static size_t tableSizes[] = {
     ht_create_rec
 *//**
     @brief  Creates a new hash record containing the provided data
-    @param  key Record key
-    @param  val Record value
+    @param  key     Record key
+    @param  *val    Record value
+    @param  val_len Length of val
 
     If the record is never put into a table then the caller is responsible for
     destroying this node with ht_destroy_record().
@@ -46,12 +47,12 @@ static size_t tableSizes[] = {
     @retval NULL    No record could be created
 *******************************************************************************/
 HashRecord *
-ht_create_rec(HashKey key, HashValue val)
+ht_create_rec(HashKey key, void *val, size_t val_len)
 {
     HashRecord *new = NULL;
 
-    if (((HASH_KEY_LEN - 1) < strlen(key)) ||
-        ((HASH_VAL_LEN - 1) < strlen(val)))
+    if ((!val) ||
+        (HASH_KEY_LEN - 1) < strlen(key))
     {
         return NULL;
     }
@@ -60,8 +61,18 @@ ht_create_rec(HashKey key, HashValue val)
 
     if (NULL != new)
     {
-        memcpy(&(new->key), key, strlen(key));
-        memcpy(&(new->value), val, strlen(val));
+        new->value = calloc(1, val_len);
+        if (new->value)
+        {
+            memcpy(&(new->key), key, strlen(key));
+            memcpy(new->value, val, val_len);
+            printf("New value: %p\n", new->value);
+        }
+        else
+        {
+            free(new);
+            new = NULL;
+        }
     }
 
     return new;
@@ -79,6 +90,9 @@ ht_destroy_rec(HashRecord **rec)
 {
     if (NULL != rec)
     {
+        memset((*rec)->value, 0, (*rec)->val_len);
+        free((*rec)->value);
+        (*rec)->value = NULL;
         memset(*rec, 0, sizeof(**rec));
         free(*rec);
         *rec = NULL;
@@ -403,14 +417,6 @@ ht_print(HashTable *table, char *fmt)
 }
 
 
-/*******************************************************************************
-    ht_get_rec_count
-*//**
-    @brief  Returns the record count of a hash table
-    @param  *table  Hash table from which the record count is retrieved
-
-    @return Number of records in the hash table
-*******************************************************************************/
 size_t
 ht_get_rec_count(HashTable *table)
 {
@@ -423,4 +429,3 @@ ht_get_rec_count(HashTable *table)
 
     return count;
 }
-

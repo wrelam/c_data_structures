@@ -12,15 +12,14 @@
 #include "list_doubly.h"
 
 #define HASH_KEY_LEN    (FILENAME_MAX + 1)
-#define HASH_VAL_LEN    (FILENAME_MAX + 1)
 
 typedef char HashKey[HASH_KEY_LEN];
-typedef char HashValue[HASH_VAL_LEN];
 
 typedef struct HashRecord {
     dll_node link;
     HashKey key;
-    HashValue value;
+    void *value;
+    size_t val_len;
 } HashRecord;
 
 typedef struct HashTable HashTable;
@@ -32,7 +31,7 @@ void
 ht_destroy(HashTable **table);
 
 HashRecord *
-ht_create_rec(HashKey key, HashValue val);
+ht_create_rec(HashKey key, void *val, size_t val_len);
 
 void
 ht_destroy_rec(HashRecord **rec);
