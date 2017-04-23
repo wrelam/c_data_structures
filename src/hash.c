@@ -66,7 +66,6 @@ ht_create_rec(HashKey key, void *val, size_t val_len)
         {
             memcpy(&(new->key), key, strlen(key));
             memcpy(new->value, val, val_len);
-            printf("New value: %p\n", new->value);
         }
         else
         {
@@ -417,6 +416,14 @@ ht_print(HashTable *table, char *fmt)
 }
 
 
+/*******************************************************************************
+    ht_get_rec_count
+*//**
+    @brief  Returns the record count of a hash table
+    @param  *table  Hash table from which the record count is retrieved
+
+    @return Number of records in the hash table
+*******************************************************************************/
 size_t
 ht_get_rec_count(HashTable *table)
 {
