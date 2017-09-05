@@ -20,8 +20,7 @@
 sll_node *
 sll_insert_after(sll_node *elem, sll_node *new)
 {
-    if ((NULL != elem) &&
-        (NULL != new))
+    if (elem && new)
     {
         new->next = elem->next;
         elem->next = new;
@@ -46,10 +45,10 @@ sll_insert_back(sll_list *list, sll_node *new)
 {
     sll_node *iter = NULL;
 
-    if (NULL != list)
+    if (list)
     {
         /* Adding the initial node to the list */
-        if (NULL == list->head)
+        if ( !(list->head))
         {
             list->head = new;
         }
@@ -57,12 +56,10 @@ sll_insert_back(sll_list *list, sll_node *new)
         else
         {
             iter = list->head;
-
-            while (NULL != iter->next)
+            while (iter->next)
             {
                 iter = iter->next;
             }
-
             iter = sll_insert_after(iter, new);
         }
     }
@@ -84,13 +81,12 @@ sll_insert_back(sll_list *list, sll_node *new)
 sll_list *
 sll_insert_front(sll_list *list, sll_node *new)
 {
-    if (NULL != list)
+    if (list)
     {
-        if (NULL != list->head)
+        if (list->head)
         {
             new = sll_insert_after(new, list->head);
         }
-
         list->head = new;
     }
 
@@ -111,7 +107,7 @@ sll_insert_front(sll_list *list, sll_node *new)
 int
 sll_is_empty(sll_list *list)
 {
-    return !((NULL != list) && (NULL != list->head));
+    return !(list && list->head);
 }
 
 
@@ -129,8 +125,7 @@ sll_remove_after(sll_node *elem)
     sll_node *del = NULL;
 
     /* Nodes exist after the given node */
-    if ((NULL != elem) &&
-        (NULL != elem->next))
+    if (elem && elem->next)
     {
         del = elem->next;
         elem->next = elem->next->next;
@@ -159,13 +154,11 @@ sll_remove_back(sll_list *list)
     {
         iter = &(list->head);
         del = list->head;
-
-        while (NULL != del->next)
+        while (del->next)
         {
             iter = &(del->next);
             del = del->next;
         }
-
         *iter = NULL;
     }
 
@@ -213,14 +206,13 @@ sll_reverse(sll_list *list)
 
     if (!sll_is_empty(list))
     {
-        while (NULL != list->head)
+        while (list->head)
         {
             tmp = list->head->next;
             list->head->next = prev;
             prev = list->head;
             list->head = tmp;
         }
-
         list->head = prev;
     }
 

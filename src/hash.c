@@ -14,13 +14,13 @@
 
 typedef dll_list HashChain;
 
-struct HashTable {
+struct HashTable
+{
     size_t chainCount;
     size_t recCount;
     size_t recLimit;
     HashChain *chains;
 };
-
 
 /* Approximately how many elements each chain will hold */
 #define HASH_CHAIN_LEN  (10)
@@ -51,15 +51,14 @@ ht_create_rec(HashKey key, void *val, size_t val_len)
 {
     HashRecord *new = NULL;
 
-    if ((!val) ||
-        (HASH_KEY_LEN - 1) < strlen(key))
+    if (!val ||
+        ((HASH_KEY_LEN - 1) < strlen(key)))
     {
         return NULL;
     }
 
     new = calloc(1, sizeof(HashRecord));
-
-    if (NULL != new)
+    if (new)
     {
         new->value = calloc(1, val_len);
         if (new->value)
@@ -87,7 +86,7 @@ ht_create_rec(HashKey key, void *val, size_t val_len)
 void
 ht_destroy_rec(HashRecord **rec)
 {
-    if (NULL != rec)
+    if (rec)
     {
         memset((*rec)->value, 0, (*rec)->val_len);
         free((*rec)->value);
@@ -116,20 +115,18 @@ ht_create(size_t M)
     HashTable *table = NULL;
 
     table = calloc(1, sizeof(*table));
-
-    if (NULL == table)
+    if ( !table )
     {
         return NULL;
     }
 
     /* Don't allocate tiny tables, prime M is preferred */
-    M = (M < 100) ? tableSizes[0] : M;
+    M = (M < tableSizes[0]) ? tableSizes[0] : M;
 
     /* Expect chains to contain about HASH_CHAIN_LEN records a piece */
     table->chainCount = M / HASH_CHAIN_LEN;
     table->chains = calloc(table->chainCount, sizeof(HashChain));
-
-    if (NULL == table->chains)
+    if ( !(table->chains) )
     {
         free(table);
         table = NULL;
@@ -155,8 +152,7 @@ ht_destroy(HashTable **table)
     HashRecord *rec = NULL;
     HashRecord *save = NULL;
 
-    if ((NULL != table) &&
-        (NULL != *table))
+    if (table && *table)
     {
         for (i = 0; i < (*table)->chainCount; i++)
         {
@@ -167,10 +163,8 @@ ht_destroy(HashTable **table)
                 rec = NULL;
             }
         }
-
         free((*table)->chains);
         (*table)->chains = NULL;
-
         free(*table);
         *table = NULL;
     }
@@ -198,8 +192,7 @@ ht_grow(HashTable **table)
     HashRecord *rec = NULL;
     HashRecord *save = NULL;
 
-    if ((NULL == table) ||
-        (NULL == *table))
+    if ( !table || !*table )
     {
         return NULL;
     }
@@ -216,8 +209,7 @@ ht_grow(HashTable **table)
     if (0 != newCount)
     {
         newTable = ht_create(newCount);
-
-        if (NULL != newTable)
+        if (newTable)
         {
             for (i = 0; i < (*table)->chainCount; i++)
             {
@@ -227,11 +219,12 @@ ht_grow(HashTable **table)
                              link,
                              save)
                 {
-                    /* Hrm. This potentially puts us in a finite loop */
+                    /* This potentially puts us in an infinite loop if the max
+                     * tableSize is reached.
+                     */
                     ht_add(&newTable, rec);
                 }
             }
-
             ht_destroy(table);
         }
     }
@@ -261,8 +254,7 @@ ht_hash(HashTable *table, HashKey key)
     int b = 27183;
     char *keyPtr = key;
 
-    if ((NULL != table) &&
-        (NULL != key))
+    if (table && key)
     {
         for (h = 0;
              *keyPtr != '\0';
@@ -294,14 +286,12 @@ ht_add(HashTable **table, HashRecord *rec)
     int hash = 0;
     HashTable *grown = NULL;
 
-    if ((NULL == table) ||
-        (NULL == *table) ||
-        (NULL == rec))
+    if ( !table || !*table || !rec )
     {
         return NULL;
     }
 
-    if (NULL != ht_search(*table, rec->key))
+    if (ht_search(*table, rec->key))
     {
         free(rec);
         rec = NULL;
@@ -311,12 +301,10 @@ ht_add(HashTable **table, HashRecord *rec)
     if ((*table)->recCount == (*table)->recLimit)
     {
         grown = ht_grow(table);
-
         if (*table == grown)
         {
             return *table;
         }
-
         *table = grown;
     }
 
@@ -326,6 +314,7 @@ ht_add(HashTable **table, HashRecord *rec)
 
     return *table;
 }
+
 
 /*******************************************************************************
     ht_search
@@ -344,10 +333,9 @@ ht_search(HashTable *table, HashKey key)
     HashRecord *rec = NULL;
     HashRecord *save = NULL;
 
-    if (NULL != table)
+    if (table)
     {
         hash = ht_hash(table, key);
-
         if (0 <= hash)
         {
             dll_for_each(&(table->chains[hash]), rec, HashRecord *, link, save)
@@ -377,8 +365,7 @@ ht_search(HashTable *table, HashKey key)
 HashTable *
 ht_remove(HashTable *table, HashRecord *rec)
 {
-    if ((NULL != table) &&
-        (NULL != rec))
+    if (table && rec)
     {
         dll_remove(&(rec->link));
         (table->recCount)--;
@@ -402,8 +389,7 @@ ht_print(HashTable *table, char *fmt)
     HashRecord *rec = NULL;
     HashRecord *save = NULL;
 
-    if ((NULL != table) &&
-        (NULL != fmt))
+    if (table && fmt)
     {
         for (i = 0; i < table->chainCount; i++)
         {
@@ -427,12 +413,6 @@ ht_print(HashTable *table, char *fmt)
 size_t
 ht_get_rec_count(HashTable *table)
 {
-    size_t count = 0;
-
-    if (NULL != table)
-    {
-        count = table->recCount;
-    }
-
-    return count;
+    return (table) ? table->recCount : 0;
 }
+

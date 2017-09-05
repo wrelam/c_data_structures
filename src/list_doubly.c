@@ -20,12 +20,11 @@
 dll_node *
 dll_insert_after(dll_node *elem, dll_node *new)
 {
-    if ((NULL != elem) &&
-        (NULL != new))
+    if (elem && new)
     {
         new->prev = elem;
         new->next = elem->next;
-        if (NULL != elem->next)
+        if (elem->next)
         {
             elem->next->prev = new;
         }
@@ -53,10 +52,10 @@ dll_insert_back(dll_list *list, dll_node *new)
 {
     dll_node *iter = NULL;
 
-    if (NULL != list)
+    if (list)
     {
         /* Adding the initial node to the list */
-        if (NULL == list->head)
+        if ( !list->head )
         {
             list->head = new;
         }
@@ -64,12 +63,10 @@ dll_insert_back(dll_list *list, dll_node *new)
         else
         {
             iter = list->head;
-
-            while (NULL != iter->next)
+            while (iter->next)
             {
                 iter = iter->next;
             }
-
             iter = dll_insert_after(iter, new);
         }
     }
@@ -91,12 +88,11 @@ dll_insert_back(dll_list *list, dll_node *new)
 dll_node *
 dll_insert_before(dll_node *elem, dll_node *new)
 {
-    if ((NULL != elem) &&
-        (NULL != new))
+    if (elem && new)
     {
         new->next = elem;
         new->prev = elem->prev;
-        if (NULL != elem->prev)
+        if (elem->prev)
         {
             elem->prev->next = new;
         }
@@ -120,13 +116,12 @@ dll_insert_before(dll_node *elem, dll_node *new)
 dll_list *
 dll_insert_front(dll_list *list, dll_node *new)
 {
-    if (NULL != list)
+    if (list)
     {
-        if (NULL != list->head)
+        if (list->head)
         {
             new = dll_insert_before(list->head, new);
         }
-
         list->head = new;
     }
 
@@ -147,7 +142,7 @@ dll_insert_front(dll_list *list, dll_node *new)
 int
 dll_is_empty(dll_list *list)
 {
-    return !((NULL != list) && (NULL != list->head));
+    return !(list && list->head);
 }
 
 
@@ -160,18 +155,17 @@ dll_is_empty(dll_list *list)
 void
 dll_remove(dll_node *elem)
 {
-    if (NULL != elem)
+    if (elem)
     {
-        if (NULL != elem->next)
+        if (elem->next)
         {
             elem->next->prev = elem->prev;
         }
 
-        if (NULL != elem->prev)
+        if (elem->prev)
         {
             elem->prev->next = elem->next;
         }
-
         elem->prev = NULL;
         elem->next = NULL;
     }
@@ -194,15 +188,13 @@ dll_remove_back(dll_list *list)
 {
     dll_node *iter = NULL;
 
-    if (NULL != list)
+    if (list)
     {
         iter = list->head;
-
-        while (NULL != iter->next)
+        while (iter->next)
         {
             iter = iter->next;
         }
-
         dll_remove(iter);
     }
 
@@ -229,12 +221,10 @@ dll_remove_front(dll_list *list)
     if (!dll_is_empty(list))
     {
         newHead = list->head->next;
-
-        if (NULL != list->head->next)
+        if (list->head->next)
         {
             list->head->next->prev = NULL;
         }
-
         dll_remove(list->head);
         list->head = newHead;
     }
@@ -259,7 +249,7 @@ dll_reverse(dll_list *list)
 
     if (!dll_is_empty(list))
     {
-        while (NULL != list->head)
+        while (list->head)
         {
             tmp = list->head->next;
             list->head->next = list->head->prev;

@@ -2,6 +2,9 @@
     @file   doubly_linked_list.h
 
     @brief  Interface to a doubly linked list implementation
+
+    When used, a dll_node/list should be the first member in a struct. List
+    iteration macros influenced by Linux kernel implementation.
 *******************************************************************************/
 #ifndef LIST_DOUBLY_H
 #define LIST_DOUBLY_H

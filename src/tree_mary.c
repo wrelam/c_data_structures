@@ -18,8 +18,7 @@
 void
 mt_add_child(MTreeNode *node, MTreeNode *child)
 {
-    if ((NULL != node) &&
-        (NULL != child))
+    if (node && child)
     {
         dll_insert_back(&(node->children), &(child->link));
         child->parent = node;
@@ -37,8 +36,7 @@ mt_add_child(MTreeNode *node, MTreeNode *child)
 void
 mt_add_child_front(MTreeNode *node, MTreeNode *child)
 {
-    if ((NULL != node) &&
-        (NULL != child))
+    if (node && child)
     {
         dll_insert_front(&(node->children), &(child->link));
         child->parent = node;
@@ -56,8 +54,7 @@ mt_add_child_front(MTreeNode *node, MTreeNode *child)
 void
 mt_add_sibling(MTreeNode *node, MTreeNode *sibling)
 {
-    if ((NULL != node) &&
-        (NULL != sibling))
+    if (node && sibling)
     {
         dll_insert_after(&(node->link), &(sibling->link));
         sibling->parent = node->parent;
@@ -74,14 +71,13 @@ mt_add_sibling(MTreeNode *node, MTreeNode *sibling)
 void
 mt_rem_child(MTreeNode *node)
 {
-    if (NULL != node)
+    if (node)
     {
         if (node->parent &&
             (node == (MTreeNode *) node->parent->children.head))
         {
             node->parent->children.head = node->link.next;
         }
-
         dll_remove(&(node->link));
     }
 }

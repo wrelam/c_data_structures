@@ -15,7 +15,8 @@
 
 typedef char HashKey[HASH_KEY_LEN];
 
-typedef struct HashRecord {
+typedef struct HashRecord
+{
     dll_node link;
     HashKey key;
     void *value;

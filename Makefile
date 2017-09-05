@@ -4,19 +4,22 @@
 #
 # Manages how the project is built
 ################################################################################
-SHELL	:=	/bin/sh
+# Enforce use of bourne shell
+override SHELL	:=	/bin/sh
 SRCDIR	:=	src
 INCDIR	:=	include
 CC		:=	gcc
-CFLAGS	:= 	-std=iso9899:1999
-CFLAGS	+=	-Wall -Wextra -Werror -pedantic
-CFLAGS	+=	-I$(INCDIR)
+# Allows CFLAGS from cmd-line to be used in conjunction with these
+override CFLAGS	+= 	-std=iso9899:1999
+override CFLAGS	+=	-Wall -Wextra -Werror -pedantic
+override CFLAGS	+=	-I$(INCDIR)
 DBGFLAGS:=	-ggdb3 -DDEBUG
 LIBNAME	:=	data_structures.a
 OBJECTS	:=	$(patsubst $(SRCDIR)/%.c,%.o,$(wildcard $(SRCDIR)/*.c))
 SLIBS	:=	$(patsubst $(SRCDIR)/%.c,%.a,$(wildcard $(SRCDIR)/*.c))
 VPATH	:=	$(SRCDIR)
 
+# Ignore all implicit rules
 .SUFFIXES:
 
 .PHONY: all
@@ -38,3 +41,4 @@ $(LIBNAME): $(SLIBS)
 .PHONY: clean
 clean:
 	rm -rf $(OBJECTS) $(SLIBS) $(LIBNAME)
+

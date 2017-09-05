@@ -3,7 +3,8 @@
 
     @brief  Interface to a singly linked list implementation
 
-    When used, an sll_node/list should be the first member in a struct.
+    When used, an sll_node/list should be the first member in a struct. List
+    iteration macros influenced by Linux kernel implementation.
 *******************************************************************************/
 #ifndef LIST_SINGLY_H
 #define LIST_SINGLY_H

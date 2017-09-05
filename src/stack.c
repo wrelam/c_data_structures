@@ -20,12 +20,13 @@ void
 s_push(Stack *stack, void *elm)
 {
     void *new = NULL;
-    if (NULL != stack)
+
+    if (stack)
     {
         if ((MAX_STACK_DEPTH - 1) > stack->top)
         {
             new = calloc(1, stack->elm_len);
-            if (NULL != new)
+            if (new)
             {
                 memcpy(new, elm, stack->elm_len);
                 stack->stack[++stack->top] = new;
@@ -47,9 +48,9 @@ s_push(Stack *stack, void *elm)
 void
 s_pop(Stack *stack, void *dst)
 {
-    if (NULL != stack)
+    if (stack)
     {
-        if (NULL != dst)
+        if (dst)
         {
             memcpy(dst, stack->stack[stack->top], stack->elm_len);
         }
@@ -69,8 +70,7 @@ s_pop(Stack *stack, void *dst)
 void
 s_peek(Stack *stack, void *dst)
 {
-    if ((NULL != stack) &&
-        (NULL != dst))
+    if (stack && dst)
     {
         memcpy(dst, stack->stack[stack->top], stack->elm_len);
     }
@@ -90,12 +90,7 @@ s_peek(Stack *stack, void *dst)
 int
 s_is_empty(Stack *stack)
 {
-    if (NULL != stack)
-    {
-        return (0 == stack->top);
-    }
-
-    return 1;
+    return (stack) ? (0 == stack->top) : 1;
 }
 
 
@@ -108,12 +103,9 @@ s_is_empty(Stack *stack)
 void
 s_pop_all(Stack *stack)
 {
-    if (NULL != stack)
+    while ( !s_is_empty(stack) )
     {
-        while (!s_is_empty(stack))
-        {
-            s_pop(stack, NULL);
-        }
+        s_pop(stack, NULL);
     }
 }
 
